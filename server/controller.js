@@ -44,7 +44,7 @@ const updateItem = (req, res) => {
     .then((item) => {
       res.status(200).json({
         status: 'Success',
-        data: item
+        data: item[0]
       });
     })
     .catch((error) => {

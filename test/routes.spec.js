@@ -104,7 +104,37 @@ describe('API routes', () => {
       .end((err, res) => {
         should.exist(err);
         res.should.have.status(422);
+        res.body.status.should.eql('error');
+        res.body.data.error.should.equal('Missing required parameter cleanliness.');
+        done();
+      });
+    });
+  });
+  describe('PATCH /api/v1/items/:id', () => {
+    it('should update an item\'s cleanliness', (done) => {
+      chai.request(server)
+      .get('/api/v1/items')
+      .end((err, res) => {
+        const id = res.body[1].id;
+        res.body[1].cleanliness.should.equal('Sparkling')
+        chai.request(server)
+        .patch(`/api/v1/items/${id}`)
+        .send({
+        	cleanliness: "Dusty"
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.should.have.status(200);
+          res.body.status.should.equal('Success');
+          res.body.data.cleanliness.should.equal('Dusty');
+          chai.request(server)
+          .get('/api/v1/items')
+          .end((err, res) => {
+            res.body[1].cleanliness.should.equal('Dusty')
+            done();
+          })
+        })
       })
     })
   })
-})
+});
