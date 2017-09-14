@@ -1,3 +1,33 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: lightblue;
+  text-align: center;
+  padding: 10px;
+}
+
+main {
+  width: 600px;
+  margin: 0 auto;
+  background-color: lightgray;
+  padding: 20px;
+}
+
+#item-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-card {
+  border: 1px solid black;
+  padding: 5px;
+}
+
 .hidden {
   display: none;
 }
