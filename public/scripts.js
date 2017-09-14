@@ -2,11 +2,12 @@ $(document).ready(() => {
   fetch('api/v1/items')
     .then(response => response.json())
     .then(items => {
-      console.log(items);
+      const totalCount = items.length;
 
       items.forEach(item => {
         generateItemCard(item);
       })
+      $('#total-count').text(totalCount);
     })
 });
 
@@ -56,6 +57,8 @@ function generateItemCard(item) {
   const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
   const rancidSelect = item.cleanliness === 'Rancid' ? 'selected' : null;
 
+  incrementCount(item.cleanliness)
+
   $('#garage-door').prepend(`
     <section class="item-card">
       <h3>${item.name}</h3>
@@ -69,3 +72,13 @@ function generateItemCard(item) {
       </div>
     </section>`)
 }
+
+function incrementCount(name) {
+  const $element = $(`#${name}-count`);
+  let count = parseInt($($element).text(), 10)
+
+  count++
+  $($element).text(count)
+}
+
+// updateCountChange(name)
