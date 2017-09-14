@@ -15,6 +15,17 @@ const getItems = (req, res) => {
 const addItem = (req, res) => {
   const newItem = req.body;
 
+  for (const requiredParameter of ['name', 'reason', 'cleanliness']) {
+    if (!newItem[requiredParameter]) {
+      return res.status(422).json({
+        status: 'error',
+        data: {
+          error: `Missing required parameter ${requiredParameter}.`,
+        },
+      });
+    }
+}
+
   database('items').insert(newItem, '*')
     .then(postedItem => {
       res.status(201).json(postedItem[0])
@@ -33,7 +44,7 @@ const updateItem = (req, res) => {
     .then((item) => {
       res.status(200).json({
         status: 'Success',
-        data: item
+        data: item[0]
       });
     })
     .catch((error) => {
