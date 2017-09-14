@@ -2,11 +2,31 @@ $(document).ready(() => {
   fetch('api/v1/items')
     .then(response => response.json())
     .then(items => {
-      console.log(items);
+      const totalCount = items.length;
+      let sparkleCount = 0;
+      let dustyCount = 0;
+      let rancidCount = 0;
 
       items.forEach(item => {
+        switch (item.cleanliness) {
+          case 'Sparkling':
+            sparkleCount++
+            break;
+          case 'Dusty':
+            dustyCount++
+            break;
+          case 'Rancid':
+            rancidCount++
+            break;
+          default:
+            break
+        }
         generateItemCard(item);
       })
+      $('#total-count').text(totalCount)
+      $('#s-count').text(sparkleCount)
+      $('#d-count').text(dustyCount)
+      $('#r-count').text(dustyCount)
     })
 });
 
