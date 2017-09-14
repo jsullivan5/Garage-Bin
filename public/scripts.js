@@ -45,6 +45,12 @@ $('#garage-door').on('change', '.card-select', (event) => {
   .catch(error => console.log(error));
 })
 
+$('#garage-door').on('click', '.item-card', () => {
+  const targetElem = event.target;
+
+  $(targetElem).siblings().toggleClass('hidden')
+})
+
 function generateItemCard(item) {
   const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
   const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
@@ -52,12 +58,14 @@ function generateItemCard(item) {
 
   $('#garage-door').prepend(`
     <section class="item-card">
-      <p>${item.name}</p>
-      <p>${item.reason}</p>
-      <select class="card-select" name=${item.id}>
-        <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
-        <option value="Dusty" ${dustySelect}>Dusty</option>
-        <option value="Rancid" ${rancidSelect}>Rancid</option>
-      </select>
+      <h3>${item.name}</h3>
+      <div class="hidden collapsable-content">
+        <p>${item.reason}</p>
+        <select class="card-select" name=${item.id}>
+          <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
+          <option value="Dusty" ${dustySelect}>Dusty</option>
+          <option value="Rancid" ${rancidSelect}>Rancid</option>
+        </select>
+      </div>
     </section>`)
 }
