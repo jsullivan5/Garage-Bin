@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title>Garage Bin</title>
   </head>
   <body>
@@ -12,16 +13,17 @@
     </header>
     <aside class="form-aside">
       <form class="item-form">
-        <input class="form-input" type="text" name="name" value="" placeholder="Item name">
-        <input class="form-input" type="text" name="reason" value="" placeholder="Reason">
-        <select class="drop-down" name="cleanliness">
+        <input id="form-name" class="form-input" type="text" name="name" value="" placeholder="Item name">
+        <input id="form-reason" class="form-input" type="text" name="reason" value="" placeholder="Reason">
+        <select id="form-cleanliness" class="drop-down" name="cleanliness">
           <option value="Sparkling">Sparkling</option>
           <option value="Dusty">Dusty</option>
           <option value="Rancid">Rancid</option>
         </select>
+        <input id="form-submit" type="submit" name="Submit" value="Submit">
       </form>
     </aside>
-    <section class="garage-dor">
+    <section id="garage-door">
       <p>insert items here</p>
     </section>
     <script src='./scripts.js'></script>
