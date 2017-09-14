@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const router = require('./server/router');
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.locals.title = 'Garage Bin';
 app.use(express.static(path.resolve(__dirname, './public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api/v1', router);
 
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, 'public/index.html'))
