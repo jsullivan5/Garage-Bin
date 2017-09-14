@@ -12,6 +12,17 @@ const getItems = (req, res) => {
     })
 }
 
+const addItem = (req, res) => {
+  const newItem = req.body;
+
+  database('items').insert(newItem, '*')
+    .then(postedItem => {
+      res.status(201).json(postedItem[0])
+    })
+    .catch(error => res.status(500).json({ error }));
+}
+
 module.exports = {
-  getItems
+  getItems,
+  addItem
 }
