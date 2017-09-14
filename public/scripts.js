@@ -3,30 +3,11 @@ $(document).ready(() => {
     .then(response => response.json())
     .then(items => {
       const totalCount = items.length;
-      let sparkleCount = 0;
-      let dustyCount = 0;
-      let rancidCount = 0;
 
       items.forEach(item => {
-        switch (item.cleanliness) {
-          case 'Sparkling':
-            sparkleCount++
-            break;
-          case 'Dusty':
-            dustyCount++
-            break;
-          case 'Rancid':
-            rancidCount++
-            break;
-          default:
-            break
-        }
         generateItemCard(item);
       })
-      $('#total-count').text(totalCount)
-      $('#s-count').text(sparkleCount)
-      $('#d-count').text(dustyCount)
-      $('#r-count').text(dustyCount)
+      $('#total-count').text(totalCount);
     })
 });
 
@@ -76,6 +57,8 @@ function generateItemCard(item) {
   const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
   const rancidSelect = item.cleanliness === 'Rancid' ? 'selected' : null;
 
+  incrementCount(item.cleanliness)
+
   $('#garage-door').prepend(`
     <section class="item-card">
       <h3>${item.name}</h3>
@@ -89,3 +72,13 @@ function generateItemCard(item) {
       </div>
     </section>`)
 }
+
+function incrementCount(name) {
+  const $element = $(`#${name}-count`);
+  let count = parseInt($($element).text(), 10)
+
+  count++
+  $($element).text(count)
+}
+
+// updateCountChange(name)
