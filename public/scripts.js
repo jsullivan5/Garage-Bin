@@ -5,20 +5,7 @@ $(document).ready(() => {
       console.log(items);
 
       items.forEach(item => {
-        const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
-        const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
-        const rancidSelect = item.cleanliness === 'Rancid' ? 'selected' : null;
-        
-        $('#garage-door').prepend(`
-          <section class="item-card">
-            <p>${item.name}</p>
-            <p>${item.reason}</p>
-            <select value=${item.cleanliness.toString()}>
-              <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
-              <option value="Dusty" ${dustySelect}>Dusty</option>
-              <option value="Rancid" ${rancidSelect}>Rancid</option>
-            </select>
-          </section>`)
+        generateItemCard(item);
       })
     })
 });
@@ -40,20 +27,24 @@ $('#form-submit').click((event) => {
   })
   .then(response => response.json())
   .then((item) => {
-    const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
-    const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
-    const rancidSelect = item.cleanliness === 'Rancid' ? 'selected' : null;
-
-    $('#garage-door').prepend(`
-      <section class="item-card">
-        <p>${item.name}</p>
-        <p>${item.reason}</p>
-        <select value=${item.cleanliness.toString()}>
-          <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
-          <option value="Dusty" ${dustySelect}>Dusty</option>
-          <option value="Rancid" ${rancidSelect}>Rancid</option>
-        </select>
-      </section>`)
+    generateItemCard(item);
   })
   .catch(error => console.log(error))
 })
+
+function generateItemCard(item) {
+  const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
+  const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
+  const rancidSelect = item.cleanliness === 'Rancid' ? 'selected' : null;
+
+  $('#garage-door').prepend(`
+    <section class="item-card">
+      <p>${item.name}</p>
+      <p>${item.reason}</p>
+      <select name=${item.id}>
+        <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
+        <option value="Dusty" ${dustySelect}>Dusty</option>
+        <option value="Rancid" ${rancidSelect}>Rancid</option>
+      </select>
+    </section>`)
+}
