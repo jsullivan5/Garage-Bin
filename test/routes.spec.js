@@ -90,7 +90,20 @@ describe('API routes', () => {
           res.body[2].reason.should.equal('lazy');
           res.body[2].cleanliness.should.equal('Sparkling');
           done();
-        })
+        });
+      });
+    });
+    it('should reject incomplete POST attempts and return 422', (done) => {
+      chai.request(server)
+      .post('/api/v1/items')
+      .send({
+	      name: 'paint',
+	      reason: 'lazy',
+	      // cleanliness omitted
+      })
+      .end((err, res) => {
+        should.exist(err);
+        res.should.have.status(422);
       })
     })
   })

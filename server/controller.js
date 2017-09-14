@@ -16,7 +16,7 @@ const addItem = (req, res) => {
   const newItem = req.body;
 
   for (const requiredParameter of ['name', 'reason', 'cleanliness']) {
-    if (!newLocation[requiredParameter]) {
+    if (!newItem[requiredParameter]) {
       return res.status(422).json({
         status: 'error',
         data: {
