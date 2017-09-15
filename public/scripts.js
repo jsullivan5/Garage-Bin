@@ -11,6 +11,16 @@ $(document).ready(() => {
     })
 });
 
+$('#door-btn').click(() => {
+  if ($('#garage-img').hasClass('open-door')) {
+    $('#garage-img').addClass('close-door');
+    $('#garage-img').removeClass('open-door');
+  } else {
+    $('#garage-img').addClass('open-door');
+    $('#garage-img').removeClass('close-door');
+  }
+})
+
 $('#form-submit').click((event) => {
   event.preventDefault();
   const name = $('#form-name').val();
