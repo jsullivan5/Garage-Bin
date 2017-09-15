@@ -5,6 +5,16 @@ $('#garage-door').on('change', '.card-select', updateItem)
 $('#garage-door').on('click', '.item-card', toggleHidden)
 $('#door-btn').click(toggleDoor);
 
+$('#alphabetize').on('click', function(){
+  console.log('working');
+  const $items = $('.item-card')
+  const sortedItems = $items.sort((a,b) => {
+    return $(a).data('name').toLowerCase() > $(b).data('name').toLowerCase();
+  });
+  $("#garage-door").html(sortedItems);
+});
+
+
 function generateItemCard(item) {
   const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
   const dustySelect = item.cleanliness === 'Dusty' ? 'selected' : null;
@@ -13,10 +23,10 @@ function generateItemCard(item) {
   incrementCount(item.cleanliness)
 
   $('#garage-door').prepend(`
-    <section class="item-card">
-      <h3>${item.name}</h3>
+    <section class="item-card" data-name=${item.name}>
+      <h3 class="card-name">${item.name}</h3>
       <div class="hidden collapsable-content">
-        <p>${item.reason}</p>
+        <p">${item.reason}</p>
         <select class="card-select" name=${item.id}>
           <option value="Sparkling" ${sparklingSelect}>Sparkling</option>
           <option value="Dusty" ${dustySelect}>Dusty</option>
