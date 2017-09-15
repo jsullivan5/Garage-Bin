@@ -1,66 +1,9 @@
-$(document).ready(() => {
-  fetch('api/v1/items')
-    .then(response => response.json())
-    .then(items => {
-      const totalCount = items.length;
+$(document).ready(getItems);
 
-      items.forEach(item => {
-        generateItemCard(item);
-      })
-      $('#total-count').text(totalCount);
-    })
-});
-
-$('#door-btn').click(() => {
-  if ($('#garage-img').hasClass('open-door')) {
-    $('#garage-img').addClass('close-door');
-    $('#garage-img').removeClass('open-door');
-  } else {
-    $('#garage-img').addClass('open-door');
-    $('#garage-img').removeClass('close-door');
-  }
-})
-
-$('#form-submit').click((event) => {
-  event.preventDefault();
-  const name = $('#form-name').val();
-  const reason = $('#form-reason').val();
-  const cleanliness = $('#form-cleanliness').val();
-
-  fetch('/api/v1/items', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      name,
-      reason,
-      cleanliness
-    })
-  })
-  .then(response => response.json())
-  .then((item) => {
-    generateItemCard(item);
-  })
-  .catch(error => console.log(error))
-})
-
-$('#garage-door').on('change', '.card-select', (event) => {
-  const newCleanliness = event.target.value;
-  const id = event.target.name;
-
-  fetch(`/api/v1/items/${id}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({ cleanliness: newCleanliness })
-  })
-  .then(response => response.json())
-  .catch(error => console.log(error));
-})
-
-$('#garage-door').on('click', '.item-card', () => {
-  const targetElem = event.target;
-
-  $(targetElem).siblings().toggleClass('hidden')
-})
+$('#form-submit').click(postItem)
+$('#garage-door').on('change', '.card-select', updateItem)
+$('#garage-door').on('click', '.item-card', toggleHidden)
+$('#door-btn').click(toggleDoor);
 
 function generateItemCard(item) {
   const sparklingSelect = item.cleanliness === 'Sparkling' ? 'selected' : null;
@@ -83,6 +26,70 @@ function generateItemCard(item) {
     </section>`)
 }
 
+function getItems() {
+  fetch('api/v1/items')
+    .then(response => response.json())
+    .then(items => {
+      const totalCount = items.length;
+
+      items.forEach(item => {
+        generateItemCard(item);
+      });
+      $('#total-count').text(totalCount);
+    });
+};
+
+function postItem(event) {
+  event.preventDefault();
+  const name = $('#form-name').val();
+  const reason = $('#form-reason').val();
+  const cleanliness = $('#form-cleanliness').val();
+
+  fetch('/api/v1/items', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name,
+      reason,
+      cleanliness
+    })
+  })
+  .then(response => response.json())
+  .then((item) => {
+    generateItemCard(item);
+  })
+  .catch(error => console.log(error))
+}
+
+function updateItem(event) {
+  const newCleanliness = event.target.value;
+  const id = event.target.name;
+
+  fetch(`/api/v1/items/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({ cleanliness: newCleanliness })
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error));
+}
+
+function toggleHidden() {
+  const targetElem = event.target;
+
+  $(targetElem).siblings().toggleClass('hidden')
+}
+
+function toggleDoor() {
+  if ($('#garage-img').hasClass('open-door')) {
+    $('#garage-img').addClass('close-door');
+    $('#garage-img').removeClass('open-door');
+  } else {
+    $('#garage-img').addClass('open-door');
+    $('#garage-img').removeClass('close-door');
+  }
+}
+
 function incrementCount(name) {
   const $element = $(`#${name}-count`);
   let count = parseInt($($element).text(), 10)
@@ -90,5 +97,3 @@ function incrementCount(name) {
   count++
   $($element).text(count)
 }
-
-// updateCountChange(name)
